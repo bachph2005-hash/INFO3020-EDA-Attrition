@@ -1,6 +1,7 @@
 # INFO3020 · Giữa kỳ — EDA bộ dữ liệu IBM HR Employee Attrition
 
 **Sinh viên:** Phan Hoàng Bách  
+**Repository:** https://github.com/bachph2005-hash/INFO3020-EDA-Attrition  
 **Câu hỏi nghiên cứu:** Nhóm nhân viên nào có tỷ lệ nghỉ việc cao nhất, và yếu tố nào vẫn gắn với nghỉ việc khi so sánh trong cùng cấp bậc công việc?
 
 ## Cấu trúc
