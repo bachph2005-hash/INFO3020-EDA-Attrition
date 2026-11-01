@@ -1,0 +1,1070 @@
+{
+ "cleaning_log": {
+  "columns": [
+   "Bước",
+   "Cột",
+   "Phát hiện",
+   "Hành động",
+   "Số dòng",
+   "Lý do / cách xác minh"
+  ],
+  "rows": [
+   [
+    "1",
+    "Age (tiêu đề)",
+    "Tiêu đề cột đầu có ký tự BOM \\ufeff",
+    "Đọc lại bằng encoding='utf-8-sig'",
+    "1470",
+    "Kiểm 3 byte đầu file = EF BB BF; không xử lý thì df['Age'] báo KeyError"
+   ],
+   [
+    "2",
+    "Tất cả",
+    "0 ô NaN; 0 giá trị thiếu trá hình; 0 mã âm kiểu -999",
+    "Không cần điền/xoá",
+    "0",
+    "Quét isna(), các chuỗi 'N/A','-','?','unknown'…, và giá trị âm; số 0 ở YearsAtCompany/TrainingTimes là hợp lệ (nhân viên mới)"
+   ],
+   [
+    "3",
+    "Tất cả",
+    "0 dòng trùng; 0 dòng trùng khi bỏ mã NV; mã NV duy nhất",
+    "Không xoá",
+    "0",
+    "duplicated() trên toàn bộ cột và trên các cột trừ EmployeeNumber"
+   ],
+   [
+    "4",
+    "EmployeeCount, Over18, StandardHours",
+    "Mỗi cột chỉ có 1 giá trị (1 / 'Y' / 80)",
+    "Loại bỏ 3 cột",
+    "1470",
+    "Phương sai = 0, không thể phân biệt nhân viên; StandardHours=80 cho mọi người nên không đo được giờ làm thực tế"
+   ],
+   [
+    "5",
+    "EmployeeNumber",
+    "Mã duy nhất nhưng đứt quãng (1–2068 cho 1470 người)",
+    "Chuyển thành chỉ mục, không dùng làm biến phân tích",
+    "1470",
+    "Là định danh, không phải đặc điểm; khoảng trống gợi ý đây là mẫu con của một tập lớn hơn (ghi vào phần giới hạn)"
+   ],
+   [
+    "6",
+    "Attrition",
+    "Giá trị 'Yes'/'No' (237/1.233)",
+    "Thêm cột Left = 1/0, giữ cột gốc",
+    "1470",
+    "Tính tỷ lệ nghỉ việc bằng trung bình của Left; kiểm chỉ có đúng 2 giá trị"
+   ],
+   [
+    "7",
+    "Education, 4 cột Satisfaction/Involvement, WorkLifeBalance, PerformanceRating",
+    "Mã số 1–5/1–4 không kèm nhãn trong file",
+    "Thêm cột *_label dạng phân loại có thứ tự; giữ mã số",
+    "1470",
+    "Bảng mã theo mô tả gốc của bộ dữ liệu (OpenML/Kaggle); thang thứ bậc nên báo cáo trung vị/tỷ lệ, không dùng trung bình như số đo khoảng"
+   ],
+   [
+    "8",
+    "6 cột số năm (Years…, TotalWorkingYears) và Age",
+    "0 dòng vi phạm 5 ràng buộc logic",
+    "Không cần sửa",
+    "0",
+    "Kiểm: năm tại công ty ≤ tổng năm làm việc; năm ở vị trí/với quản lý/từ lần thăng chức ≤ năm tại công ty; tuổi − tổng năm làm việc ≥ 18"
+   ],
+   [
+    "9",
+    "NumCompaniesWorked",
+    "197 người ghi 0 công ty trước đây nhưng tổng năm làm việc lớn hơn năm tại công ty đúng 1 năm (197/197 dòng)",
+    "Giữ nguyên, thêm cờ NCW_flag; không dùng cột này để kết luận",
+    "197",
+    "Mẫu lệch đều đúng 1 năm gợi ý lỗi mã hoá hệ thống, nhưng không có nguồn để xác minh giá trị đúng → đánh dấu thay vì đoán"
+   ],
+   [
+    "10",
+    "DailyRate, HourlyRate, MonthlyRate",
+    "Phân phối đều (kurtosis ≈ −1,2), tương quan với MonthlyIncome ≈ 0 (|ρ| ≤ 0,05), không tăng theo JobLevel",
+    "Giữ trong bảng dữ liệu sạch, loại khỏi phân tích",
+    "0",
+    "Không có định nghĩa trong nguồn và mâu thuẫn với thu nhập thực nhận → không đủ căn cứ để diễn giải"
+   ],
+   [
+    "11",
+    "MonthlyIncome",
+    "IQR đánh dấu 114 dòng > 16.581; Z cải tiến (MAD) đánh dấu 118; Z-score (>3) đánh dấu 0",
+    "Giữ toàn bộ; dùng trung vị, Spearman và so sánh trong cùng cấp",
+    "114",
+    "Tất cả thuộc cấp bậc 4–5 (cấp 4: 45, cấp 5: 69) — lương cao thật của cấp quản lý; trong từng cấp không ai vượt khung lương; bỏ các dòng này không đổi kết luận (mục 3.1)"
+   ],
+   [
+    "12",
+    "10 cột số còn lại (Age, các cột số năm, NumCompaniesWorked, TrainingTimesLastYear…)",
+    "IQR đánh dấu: TotalWorkingYears 63, YearsAtCompany 104, YearsInCurrentRole 21, YearsSinceLastPromotion 107, YearsWithCurrManager 14, NumCompaniesWorked 52, TrainingTimesLastYear 238; Age, DistanceFromHome, PercentSalaryHike: 0",
+    "Giữ toàn bộ",
+    "447",
+    "Không có giá trị không thể có (kiểm miền và logic B8); cột số năm là nhân viên gắn bó lâu; TrainingTimesLastYear bị đánh dấu chỉ vì Q1–Q3 quá hẹp (mục 3.1)"
+   ],
+   [
+    "13",
+    "AgeBand, TenureBand, IncomeQuartile",
+    "Cần nhóm hoá để so sánh tỷ lệ nghỉ việc",
+    "Tuổi: 18–29/30–39/40–60; thâm niên: 0–1/2–3/4–5/6–10/11+ năm; thu nhập: tứ phân vị",
+    "1470",
+    "Ngưỡng cố định trước khi xem kết quả; mỗi nhóm ≥ 200 người để tỷ lệ không dao động vì cỡ mẫu nhỏ"
+   ]
+  ]
+ },
+ "data_dictionary": {
+  "columns": [
+   "Cột",
+   "Kiểu",
+   "Đơn vị",
+   "Mô tả",
+   "Giá trị thiếu",
+   "Số giá trị khác nhau",
+   "Nguồn"
+  ],
+  "rows": [
+   [
+    "Age",
+    "số nguyên",
+    "năm",
+    "Tuổi nhân viên",
+    "Không có",
+    "43",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "Attrition",
+    "phân loại",
+    "—",
+    "Nhân viên đã nghỉ việc (Yes/No) — biến mục tiêu",
+    "Không có",
+    "2",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "BusinessTravel",
+    "phân loại",
+    "—",
+    "Tần suất công tác: Non-Travel / Travel_Rarely / Travel_Frequently",
+    "Không có",
+    "3",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "DailyRate",
+    "số nguyên",
+    "không rõ",
+    "Không có định nghĩa trong nguồn; không khớp thu nhập (xem B10)",
+    "Không có",
+    "886",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "Department",
+    "phân loại",
+    "—",
+    "Phòng ban: R&D / Sales / Human Resources",
+    "Không có",
+    "3",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "DistanceFromHome",
+    "số nguyên",
+    "không rõ (1–29)",
+    "Khoảng cách từ nhà đến nơi làm việc",
+    "Không có",
+    "29",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "Education",
+    "thứ bậc",
+    "mã 1–5",
+    "Trình độ: 1 Dưới CĐ … 5 Tiến sĩ",
+    "Không có",
+    "5",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "EducationField",
+    "phân loại",
+    "—",
+    "Ngành học",
+    "Không có",
+    "6",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "EmployeeCount",
+    "số nguyên",
+    "—",
+    "Luôn = 1 → đã loại (B4)",
+    "Không có",
+    "1",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "EmployeeNumber",
+    "số nguyên",
+    "—",
+    "Mã nhân viên, duy nhất → chỉ mục (B5)",
+    "Không có",
+    "1470",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "EnvironmentSatisfaction",
+    "thứ bậc",
+    "mã 1–4",
+    "Hài lòng với môi trường làm việc",
+    "Không có",
+    "4",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "Gender",
+    "phân loại",
+    "—",
+    "Giới tính",
+    "Không có",
+    "2",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "HourlyRate",
+    "số nguyên",
+    "không rõ",
+    "Không có định nghĩa; không khớp thu nhập (B10)",
+    "Không có",
+    "71",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "JobInvolvement",
+    "thứ bậc",
+    "mã 1–4",
+    "Mức độ gắn kết với công việc",
+    "Không có",
+    "4",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "JobLevel",
+    "thứ bậc",
+    "mã 1–5",
+    "Cấp bậc công việc (1 thấp nhất)",
+    "Không có",
+    "5",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "JobRole",
+    "phân loại",
+    "—",
+    "Chức danh (9 loại)",
+    "Không có",
+    "9",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "JobSatisfaction",
+    "thứ bậc",
+    "mã 1–4",
+    "Hài lòng với công việc",
+    "Không có",
+    "4",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "MaritalStatus",
+    "phân loại",
+    "—",
+    "Tình trạng hôn nhân: Single / Married / Divorced",
+    "Không có",
+    "3",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "MonthlyIncome",
+    "số nguyên",
+    "đơn vị tiền/tháng, nguồn không ghi loại tiền",
+    "Thu nhập hằng tháng",
+    "Không có",
+    "1349",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "MonthlyRate",
+    "số nguyên",
+    "không rõ",
+    "Không có định nghĩa; không khớp thu nhập (B10)",
+    "Không có",
+    "1427",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "NumCompaniesWorked",
+    "số nguyên",
+    "số công ty",
+    "Số công ty đã làm trước đây; giá trị 0 mâu thuẫn (B9)",
+    "Không có",
+    "10",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "Over18",
+    "phân loại",
+    "—",
+    "Luôn = 'Y' → đã loại (B4)",
+    "Không có",
+    "1",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "OverTime",
+    "phân loại",
+    "—",
+    "Có làm thêm giờ (Yes/No)",
+    "Không có",
+    "2",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "PercentSalaryHike",
+    "số nguyên",
+    "%",
+    "Mức tăng lương gần nhất",
+    "Không có",
+    "15",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "PerformanceRating",
+    "thứ bậc",
+    "mã 1–4",
+    "Đánh giá hiệu suất; thực tế chỉ có 3 và 4",
+    "Không có",
+    "2",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "RelationshipSatisfaction",
+    "thứ bậc",
+    "mã 1–4",
+    "Hài lòng với quan hệ đồng nghiệp",
+    "Không có",
+    "4",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "StandardHours",
+    "số nguyên",
+    "giờ",
+    "Luôn = 80 → đã loại (B4)",
+    "Không có",
+    "1",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "StockOptionLevel",
+    "thứ bậc",
+    "mã 0–3",
+    "Mức quyền chọn cổ phiếu",
+    "Không có",
+    "4",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "TotalWorkingYears",
+    "số nguyên",
+    "năm",
+    "Tổng số năm đi làm",
+    "Không có",
+    "40",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "TrainingTimesLastYear",
+    "số nguyên",
+    "lần",
+    "Số lần đào tạo năm trước",
+    "Không có",
+    "7",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "WorkLifeBalance",
+    "thứ bậc",
+    "mã 1–4",
+    "Cân bằng công việc – cuộc sống: 1 Kém … 4 Rất tốt",
+    "Không có",
+    "4",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "YearsAtCompany",
+    "số nguyên",
+    "năm",
+    "Thâm niên tại công ty",
+    "Không có",
+    "37",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "YearsInCurrentRole",
+    "số nguyên",
+    "năm",
+    "Số năm ở vị trí hiện tại",
+    "Không có",
+    "19",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "YearsSinceLastPromotion",
+    "số nguyên",
+    "năm",
+    "Số năm kể từ lần thăng chức gần nhất",
+    "Không có",
+    "16",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ],
+   [
+    "YearsWithCurrManager",
+    "số nguyên",
+    "năm",
+    "Số năm làm với quản lý hiện tại",
+    "Không có",
+    "18",
+    "IBM HR Analytics (Kaggle/OpenML), dữ liệu giả lập"
+   ]
+  ]
+ },
+ "descriptive_stats": {
+  "columns": [
+   "Unnamed: 0",
+   "Trung bình",
+   "Trung vị",
+   "p10",
+   "p90",
+   "Độ lệch chuẩn",
+   "IQR",
+   "CV",
+   "Skewness",
+   "Kurtosis",
+   "Tóm tắt nên dùng"
+  ],
+  "rows": [
+   [
+    "Age",
+    "36.92",
+    "36.0",
+    "26.0",
+    "50.0",
+    "9.14",
+    "13.0",
+    "0.25",
+    "0.41",
+    "-0.4",
+    "Trung bình"
+   ],
+   [
+    "MonthlyIncome",
+    "6502.93",
+    "4919.0",
+    "2317.6",
+    "13775.6",
+    "4707.96",
+    "5468.0",
+    "0.72",
+    "1.37",
+    "1.01",
+    "Trung vị"
+   ],
+   [
+    "TotalWorkingYears",
+    "11.28",
+    "10.0",
+    "3.0",
+    "23.0",
+    "7.78",
+    "9.0",
+    "0.69",
+    "1.12",
+    "0.92",
+    "Trung vị"
+   ],
+   [
+    "YearsAtCompany",
+    "7.01",
+    "5.0",
+    "1.0",
+    "15.0",
+    "6.13",
+    "6.0",
+    "0.87",
+    "1.76",
+    "3.94",
+    "Trung vị"
+   ],
+   [
+    "YearsInCurrentRole",
+    "4.23",
+    "3.0",
+    "0.0",
+    "9.0",
+    "3.62",
+    "5.0",
+    "0.86",
+    "0.92",
+    "0.48",
+    "Trung bình"
+   ],
+   [
+    "YearsSinceLastPromotion",
+    "2.19",
+    "1.0",
+    "0.0",
+    "7.0",
+    "3.22",
+    "3.0",
+    "1.47",
+    "1.98",
+    "3.61",
+    "Trung vị"
+   ],
+   [
+    "YearsWithCurrManager",
+    "4.12",
+    "3.0",
+    "0.0",
+    "9.0",
+    "3.57",
+    "5.0",
+    "0.87",
+    "0.83",
+    "0.17",
+    "Trung bình"
+   ],
+   [
+    "DistanceFromHome",
+    "9.19",
+    "7.0",
+    "1.0",
+    "23.0",
+    "8.11",
+    "12.0",
+    "0.88",
+    "0.96",
+    "-0.22",
+    "Trung bình"
+   ],
+   [
+    "NumCompaniesWorked",
+    "2.69",
+    "2.0",
+    "0.0",
+    "7.0",
+    "2.5",
+    "3.0",
+    "0.93",
+    "1.03",
+    "0.01",
+    "Trung vị"
+   ],
+   [
+    "PercentSalaryHike",
+    "15.21",
+    "14.0",
+    "11.0",
+    "21.0",
+    "3.66",
+    "6.0",
+    "0.24",
+    "0.82",
+    "-0.3",
+    "Trung bình"
+   ],
+   [
+    "TrainingTimesLastYear",
+    "2.8",
+    "3.0",
+    "2.0",
+    "5.0",
+    "1.29",
+    "1.0",
+    "0.46",
+    "0.55",
+    "0.49",
+    "Trung bình"
+   ]
+  ]
+ },
+ "group_spread": {
+  "columns": [
+   "Biến",
+   "Nhóm cao nhất",
+   "Tỷ lệ cao nhất",
+   "Nhóm thấp nhất",
+   "Tỷ lệ thấp nhất",
+   "Chênh (điểm %)"
+  ],
+  "rows": [
+   [
+    "JobRole",
+    "Sales Representative",
+    "0.398",
+    "Research Director",
+    "0.025",
+    "37.3"
+   ],
+   [
+    "TenureBand",
+    "0–1",
+    "0.349",
+    "11+",
+    "0.081",
+    "26.8"
+   ],
+   [
+    "JobInvolvement_label",
+    "Thấp",
+    "0.337",
+    "Rất cao",
+    "0.09",
+    "24.7"
+   ],
+   [
+    "JobLevel",
+    "1",
+    "0.263",
+    "4",
+    "0.047",
+    "21.6"
+   ],
+   [
+    "OverTime",
+    "Yes",
+    "0.305",
+    "No",
+    "0.104",
+    "20.1"
+   ],
+   [
+    "IncomeQuartile",
+    "Q1 (thấp)",
+    "0.293",
+    "Q4 (cao)",
+    "0.103",
+    "19.0"
+   ],
+   [
+    "AgeBand",
+    "18–29",
+    "0.279",
+    "40–60",
+    "0.109",
+    "17.0"
+   ],
+   [
+    "WorkLifeBalance_label",
+    "Kém",
+    "0.312",
+    "Khá tốt",
+    "0.142",
+    "17.0"
+   ],
+   [
+    "BusinessTravel",
+    "Travel_Frequently",
+    "0.249",
+    "Non-Travel",
+    "0.08",
+    "16.9"
+   ],
+   [
+    "StockOptionLevel",
+    "0",
+    "0.244",
+    "2",
+    "0.076",
+    "16.8"
+   ],
+   [
+    "MaritalStatus",
+    "Single",
+    "0.255",
+    "Divorced",
+    "0.101",
+    "15.4"
+   ],
+   [
+    "EnvironmentSatisfaction_label",
+    "Thấp",
+    "0.254",
+    "Rất cao",
+    "0.135",
+    "11.9"
+   ],
+   [
+    "JobSatisfaction_label",
+    "Thấp",
+    "0.228",
+    "Rất cao",
+    "0.113",
+    "11.5"
+   ],
+   [
+    "Department",
+    "Sales",
+    "0.206",
+    "Research & Development",
+    "0.138",
+    "6.8"
+   ],
+   [
+    "Gender",
+    "Male",
+    "0.17",
+    "Female",
+    "0.148",
+    "2.2"
+   ],
+   [
+    "PerformanceRating_label",
+    "Vượt trội",
+    "0.164",
+    "Xuất sắc",
+    "0.161",
+    "0.3"
+   ]
+  ]
+ },
+ "robustness_10pct": {
+  "columns": [
+   "Unnamed: 0",
+   "p2,5",
+   "trung vị",
+   "p97,5",
+   "Tỷ lệ lần chênh > 0"
+  ],
+  "rows": [
+   [
+    "Chênh OT (điểm %)",
+    "18.5",
+    "20.2",
+    "21.7",
+    "1.0"
+   ],
+   [
+    "Chênh OT trong cấp 1 (điểm %)",
+    "33.8",
+    "36.9",
+    "40.1",
+    "1.0"
+   ],
+   [
+    "Thâm niên 0–1 năm − 11+ năm (điểm %)",
+    "24.2",
+    "26.7",
+    "29.3",
+    "1.0"
+   ]
+  ]
+ },
+ "outliers": {
+  "columns": [
+   "Cột",
+   "Nhỏ nhất",
+   "Trung vị",
+   "Lớn nhất",
+   "Skewness",
+   "Z-score |z|>3",
+   "Z cải tiến |M|>3,5",
+   "IQR × 1,5",
+   "IQR × 3",
+   "Ngưỡng trên IQR",
+   "Tỷ lệ nghỉ trong nhóm bị IQR đánh dấu"
+  ],
+  "rows": [
+   [
+    "Age",
+    18.0,
+    36.0,
+    60.0,
+    0.41,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    62.5,
+    null
+   ],
+   [
+    "MonthlyIncome",
+    1009.0,
+    4919.0,
+    19999.0,
+    1.37,
+    0.0,
+    118.0,
+    114.0,
+    0.0,
+    16581.0,
+    0.043859649122807015
+   ],
+   [
+    "TotalWorkingYears",
+    0.0,
+    10.0,
+    40.0,
+    1.12,
+    16.0,
+    46.0,
+    63.0,
+    0.0,
+    28.5,
+    0.07936507936507936
+   ],
+   [
+    "YearsAtCompany",
+    0.0,
+    5.0,
+    40.0,
+    1.76,
+    25.0,
+    66.0,
+    104.0,
+    19.0,
+    18.0,
+    0.09615384615384616
+   ],
+   [
+    "YearsInCurrentRole",
+    0.0,
+    3.0,
+    18.0,
+    0.92,
+    13.0,
+    0.0,
+    21.0,
+    0.0,
+    14.5,
+    0.09523809523809523
+   ],
+   [
+    "YearsSinceLastPromotion",
+    0.0,
+    1.0,
+    15.0,
+    1.98,
+    42.0,
+    183.0,
+    107.0,
+    32.0,
+    7.5,
+    0.12149532710280374
+   ],
+   [
+    "YearsWithCurrManager",
+    0.0,
+    3.0,
+    17.0,
+    0.83,
+    14.0,
+    0.0,
+    14.0,
+    0.0,
+    14.5,
+    0.0
+   ],
+   [
+    "DistanceFromHome",
+    1.0,
+    7.0,
+    29.0,
+    0.96,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    32.0,
+    null
+   ],
+   [
+    "NumCompaniesWorked",
+    0.0,
+    2.0,
+    9.0,
+    1.03,
+    0.0,
+    101.0,
+    52.0,
+    0.0,
+    8.5,
+    0.23076923076923078
+   ],
+   [
+    "PercentSalaryHike",
+    11.0,
+    14.0,
+    25.0,
+    0.82,
+    0.0,
+    18.0,
+    0.0,
+    0.0,
+    27.0,
+    null
+   ],
+   [
+    "TrainingTimesLastYear",
+    0.0,
+    3.0,
+    6.0,
+    0.55,
+    0.0,
+    0.0,
+    238.0,
+    0.0,
+    4.5,
+    0.14705882352941177
+   ]
+  ]
+ },
+ "outlier_impact": {
+  "columns": [
+   "Chỉ số",
+   "Toàn bộ dữ liệu",
+   "Bỏ dòng ngoại lai",
+   "Chênh"
+  ],
+  "rows": [
+   [
+    "Số dòng",
+    1470.0,
+    1235.0,
+    -235.0
+   ],
+   [
+    "Tỷ lệ nghỉ chung (%)",
+    16.1,
+    17.6,
+    1.5
+   ],
+   [
+    "Làm thêm giờ: Có (%)",
+    30.5,
+    33.7,
+    3.2
+   ],
+   [
+    "Làm thêm giờ: Không (%)",
+    10.4,
+    11.2,
+    0.8
+   ],
+   [
+    "Cấp 1 — Có / Không OT (điểm % chênh)",
+    36.8,
+    37.1,
+    0.3
+   ],
+   [
+    "Thâm niên 0–1 năm (%)",
+    34.9,
+    36.6,
+    1.7
+   ],
+   [
+    "Sales Representative (%)",
+    39.8,
+    39.8,
+    0.0
+   ],
+   [
+    "Thu nhập: trung bình",
+    6502.9,
+    5095.2,
+    -1407.7
+   ],
+   [
+    "Thu nhập: trung vị",
+    4919.0,
+    4422.0,
+    -497.0
+   ]
+  ]
+ },
+ "outlier_decision": {
+  "columns": [
+   "Cột",
+   "Số điểm bị đánh dấu",
+   "Loại",
+   "Quyết định",
+   "Bằng chứng",
+   "Cách giảm ảnh hưởng trong phân tích"
+  ],
+  "rows": [
+   [
+    "MonthlyIncome",
+    "114 (IQR) · 118 (Z cải tiến) · 0 (Z)",
+    "Hiếm gặp, có thật",
+    "Giữ",
+    "Toàn bộ là cấp 4–5; trong cùng cấp không vượt khung lương",
+    "Tóm tắt bằng trung vị; tương quan Spearman; so sánh trong từng cấp"
+   ],
+   [
+    "TotalWorkingYears, YearsAtCompany, YearsInCurrentRole, YearsWithCurrManager",
+    "149 người (IQR, hợp các cột)",
+    "Hiếm gặp, có thật",
+    "Giữ",
+    "Qua kiểm tra logic B8 và bước 3a; là nhân viên lớn tuổi, gắn bó lâu",
+    "Gom thành nhóm thâm niên (11+ năm) nên điểm cực trị không kéo lệch kết quả"
+   ],
+   [
+    "YearsSinceLastPromotion",
+    "107 (IQR)",
+    "Hiếm gặp, có thật",
+    "Giữ",
+    "Phần lớn có thâm niên ≥ 10 năm",
+    "Chỉ dùng trong tương quan Spearman (theo thứ hạng)"
+   ],
+   [
+    "NumCompaniesWorked",
+    "52 (IQR, giá trị 9) · 101 (Z cải tiến, giá trị 8–9)",
+    "Hiếm gặp; một phần khó tin",
+    "Giữ",
+    "Người có 9 công ty có trung vị 10 năm đi làm; 17 người chưa đủ 9 năm — khó tin nhưng không có nguồn để sửa",
+    "Không dùng cột này để kết luận (đã gắn cờ B9 vì giá trị 0 mâu thuẫn)"
+   ],
+   [
+    "TrainingTimesLastYear",
+    "238 (IQR) · 0 (Z cải tiến)",
+    "Không phải ngoại lai",
+    "Giữ",
+    "Do Q1 và Q3 quá sát trên thang rời rạc 0–6",
+    "Không cần xử lý"
+   ],
+   [
+    "PercentSalaryHike",
+    "0 (IQR, Z) · 18 (Z cải tiến)",
+    "Không phải ngoại lai",
+    "Giữ",
+    "Các điểm bị đánh dấu đều bằng 25%, mức trần của thang 11–25%",
+    "Không cần xử lý"
+   ],
+   [
+    "Age, DistanceFromHome",
+    "0 (cả ba phương pháp)",
+    "—",
+    "Giữ",
+    "Không có điểm bị đánh dấu",
+    "—"
+   ]
+  ]
+ }
+}

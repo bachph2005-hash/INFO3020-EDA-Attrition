@@ -1,0 +1,17 @@
+﻿Biến,Nhóm cao nhất,Tỷ lệ cao nhất,Nhóm thấp nhất,Tỷ lệ thấp nhất,Chênh (điểm %)
+JobRole,Sales Representative,0.398,Research Director,0.025,37.3
+TenureBand,0–1,0.349,11+,0.081,26.8
+JobInvolvement_label,Thấp,0.337,Rất cao,0.09,24.7
+JobLevel,1,0.263,4,0.047,21.6
+OverTime,Yes,0.305,No,0.104,20.1
+IncomeQuartile,Q1 (thấp),0.293,Q4 (cao),0.103,19.0
+AgeBand,18–29,0.279,40–60,0.109,17.0
+WorkLifeBalance_label,Kém,0.312,Khá tốt,0.142,17.0
+BusinessTravel,Travel_Frequently,0.249,Non-Travel,0.08,16.9
+StockOptionLevel,0,0.244,2,0.076,16.8
+MaritalStatus,Single,0.255,Divorced,0.101,15.4
+EnvironmentSatisfaction_label,Thấp,0.254,Rất cao,0.135,11.9
+JobSatisfaction_label,Thấp,0.228,Rất cao,0.113,11.5
+Department,Sales,0.206,Research & Development,0.138,6.8
+Gender,Male,0.17,Female,0.148,2.2
+PerformanceRating_label,Vượt trội,0.164,Xuất sắc,0.161,0.3
