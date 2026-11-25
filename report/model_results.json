@@ -1,0 +1,770 @@
+{
+ "tests": {
+  "columns": [
+   "Giả thuyết",
+   "Kiểm định",
+   "Độ lớn hiệu ứng và KTC 95%",
+   "p-value",
+   "Kết luận (α = 0,05)"
+  ],
+  "index": [
+   "0",
+   "1",
+   "2"
+  ],
+  "rows": [
+   [
+    "H1: Tỷ lệ nghỉ của người làm thêm giờ khác người không làm",
+    "Chi bình phương",
+    "Chênh +20.1 điểm % (KTC 95%: +15.3 đến +24.9); Cramér's V = 0.25",
+    "8.2e-21",
+    "Bác bỏ H0: có khác biệt"
+   ],
+   [
+    "H2: Người có thâm niên 0–1 năm nghỉ nhiều hơn những người còn lại",
+    "Chi bình phương",
+    "Chênh +22.0 điểm % (KTC 95%: +15.3 đến +28.6); Cramér's V = 0.21",
+    "1.3e-15",
+    "Bác bỏ H0: có khác biệt"
+   ],
+   [
+    "H3: Trong cùng cấp 1, thu nhập người nghỉ khác người ở lại",
+    "Mann–Whitney U",
+    "Chênh trung vị -282; hệ số tương quan hạng r = 0.20",
+    "0.00041",
+    "Bác bỏ H0: có khác biệt"
+   ]
+  ]
+ },
+ "split": {
+  "columns": [
+   "Số người",
+   "Số người nghỉ",
+   "Tỷ lệ nghỉ"
+  ],
+  "index": [
+   "Tập huấn luyện (80%)",
+   "Tập kiểm tra (20%)"
+  ],
+  "rows": [
+   [
+    1176,
+    190,
+    0.16156462585034015
+   ],
+   [
+    294,
+    47,
+    0.1598639455782313
+   ]
+  ]
+ },
+ "cv": {
+  "columns": [
+   "Ngưỡng",
+   "Recall",
+   "Precision",
+   "F1",
+   "PR-AUC",
+   "ROC-AUC",
+   "Accuracy"
+  ],
+  "index": [
+   "Mốc: luôn đoán “không nghỉ”",
+   "Hồi quy logistic",
+   "Random Forest"
+  ],
+  "rows": [
+   [
+    0.5,
+    0.0,
+    0.0,
+    0.0,
+    0.162,
+    0.5,
+    0.838
+   ],
+   [
+    0.2,
+    0.711,
+    0.453,
+    0.553,
+    0.664,
+    0.843,
+    0.815
+   ],
+   [
+    0.15,
+    0.768,
+    0.341,
+    0.472,
+    0.569,
+    0.822,
+    0.723
+   ]
+  ]
+ },
+ "thr": {
+  "columns": [
+   "Recall",
+   "Precision",
+   "F1",
+   "Tỷ lệ bị cảnh báo"
+  ],
+  "index": [
+   "0.1",
+   "0.15",
+   "0.2",
+   "0.25",
+   "0.3",
+   "0.35",
+   "0.4",
+   "0.45",
+   "0.5"
+  ],
+  "rows": [
+   [
+    0.811,
+    0.316,
+    0.455,
+    0.414
+   ],
+   [
+    0.768,
+    0.392,
+    0.52,
+    0.316
+   ],
+   [
+    0.711,
+    0.453,
+    0.553,
+    0.253
+   ],
+   [
+    0.679,
+    0.52,
+    0.589,
+    0.211
+   ],
+   [
+    0.621,
+    0.559,
+    0.589,
+    0.179
+   ],
+   [
+    0.563,
+    0.629,
+    0.594,
+    0.145
+   ],
+   [
+    0.526,
+    0.685,
+    0.595,
+    0.124
+   ],
+   [
+    0.495,
+    0.734,
+    0.591,
+    0.109
+   ],
+   [
+    0.453,
+    0.782,
+    0.573,
+    0.094
+   ]
+  ]
+ },
+ "threshold": 0.2,
+ "test_scores": {
+  "Recall": 0.638,
+  "Precision": 0.448,
+  "F1": 0.526,
+  "PR-AUC": 0.577,
+  "ROC-AUC": 0.812,
+  "Accuracy": 0.816
+ },
+ "cm": [
+  [
+   210,
+   37
+  ],
+  [
+   17,
+   30
+  ]
+ ],
+ "ablation": {
+  "columns": [
+   "PR-AUC giảm khi bỏ đặc trưng này"
+  ],
+  "index": [
+   "IncomeVsLevel",
+   "OT_Level1",
+   "PromoGapShare",
+   "SatisfactionMean",
+   "TenureShare",
+   "YearsPerCompany"
+  ],
+  "rows": [
+   [
+    0.0033
+   ],
+   [
+    0.0004
+   ],
+   [
+    -0.0049
+   ],
+   [
+    -0.0059
+   ],
+   [
+    -0.0086
+   ],
+   [
+    -0.0088
+   ]
+  ]
+ },
+ "base_prauc": 0.6533670780332546,
+ "gender": {
+  "columns": [
+   "Có Gender",
+   "Không có Gender (mô hình cuối)"
+  ],
+  "index": [
+   "PR-AUC",
+   "ROC-AUC",
+   "Recall (ngưỡng 0.20)",
+   "Precision (ngưỡng 0.20)"
+  ],
+  "rows": [
+   [
+    0.663,
+    0.664
+   ],
+   [
+    0.844,
+    0.843
+   ],
+   [
+    0.711,
+    0.711
+   ],
+   [
+    0.45,
+    0.453
+   ]
+  ]
+ },
+ "grp": {
+  "columns": [
+   "n",
+   "Số người nghỉ",
+   "Recall",
+   "Precision",
+   "Tỷ lệ bị cảnh báo"
+  ],
+  "index": [
+   "('Giới tính', 'Female')",
+   "('Giới tính', 'Male')",
+   "('Nhóm tuổi', '18–29')",
+   "('Nhóm tuổi', '30–39')",
+   "('Nhóm tuổi', '40–60')",
+   "('Phòng ban', 'Human Resources')",
+   "('Phòng ban', 'Research & Development')",
+   "('Phòng ban', 'Sales')"
+  ],
+  "rows": [
+   [
+    116.0,
+    16.0,
+    0.688,
+    0.407,
+    0.233
+   ],
+   [
+    178.0,
+    31.0,
+    0.613,
+    0.475,
+    0.225
+   ],
+   [
+    68.0,
+    17.0,
+    0.765,
+    0.481,
+    0.397
+   ],
+   [
+    125.0,
+    14.0,
+    0.786,
+    0.379,
+    0.232
+   ],
+   [
+    101.0,
+    16.0,
+    0.375,
+    0.545,
+    0.109
+   ],
+   [
+    15.0,
+    2.0,
+    0.5,
+    0.2,
+    0.333
+   ],
+   [
+    197.0,
+    29.0,
+    0.517,
+    0.484,
+    0.157
+   ],
+   [
+    82.0,
+    16.0,
+    0.875,
+    0.452,
+    0.378
+   ]
+  ]
+ },
+ "watch": {
+  "columns": [
+   "Department",
+   "JobRole",
+   "JobLevel",
+   "Age",
+   "YearsAtCompany",
+   "Xác suất nghỉ",
+   "Yếu tố nổi bật"
+  ],
+  "index": [
+   "1605",
+   "939",
+   "2021",
+   "1646",
+   "1961",
+   "925",
+   "1286",
+   "1269",
+   "732",
+   "913",
+   "434",
+   "72",
+   "1019",
+   "1202",
+   "2003"
+  ],
+  "rows": [
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    22,
+    4,
+    0.815,
+    "làm thêm giờ, cấp 1, không có cổ phiếu"
+   ],
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    33,
+    3,
+    0.805,
+    "làm thêm giờ, cấp 1, không có cổ phiếu, hài lòng thấp"
+   ],
+   [
+    "Sales",
+    "Sales Representative",
+    1,
+    21,
+    2,
+    0.804,
+    "làm thêm giờ, cấp 1, không có cổ phiếu, hài lòng thấp"
+   ],
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    24,
+    6,
+    0.786,
+    "làm thêm giờ, cấp 1, không có cổ phiếu, hay đi công tác"
+   ],
+   [
+    "Sales",
+    "Sales Representative",
+    1,
+    38,
+    1,
+    0.764,
+    "thâm niên 0–1 năm, cấp 1, không có cổ phiếu, hài lòng thấp"
+   ],
+   [
+    "Sales",
+    "Sales Representative",
+    1,
+    47,
+    3,
+    0.753,
+    "làm thêm giờ, cấp 1, không có cổ phiếu"
+   ],
+   [
+    "Research & Development",
+    "Laboratory Technician",
+    1,
+    28,
+    4,
+    0.701,
+    "làm thêm giờ, cấp 1, không có cổ phiếu, hay đi công tác"
+   ],
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    19,
+    1,
+    0.677,
+    "làm thêm giờ, thâm niên 0–1 năm, cấp 1, không có cổ phiếu"
+   ],
+   [
+    "Sales",
+    "Sales Executive",
+    2,
+    60,
+    2,
+    0.669,
+    "không có cổ phiếu, hài lòng thấp"
+   ],
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    44,
+    8,
+    0.666,
+    "làm thêm giờ, cấp 1, không có cổ phiếu, hài lòng thấp"
+   ],
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    27,
+    4,
+    0.615,
+    "làm thêm giờ, cấp 1, không có cổ phiếu"
+   ],
+   [
+    "Sales",
+    "Sales Executive",
+    2,
+    26,
+    2,
+    0.613,
+    "làm thêm giờ"
+   ],
+   [
+    "Research & Development",
+    "Laboratory Technician",
+    1,
+    22,
+    4,
+    0.6,
+    "cấp 1, hài lòng thấp"
+   ],
+   [
+    "Research & Development",
+    "Research Scientist",
+    1,
+    29,
+    5,
+    0.6,
+    "làm thêm giờ, cấp 1"
+   ],
+   [
+    "Research & Development",
+    "Laboratory Technician",
+    1,
+    35,
+    2,
+    0.597,
+    "làm thêm giờ, cấp 1"
+   ]
+  ]
+ },
+ "scen": {
+  "columns": [
+   "Số người nghỉ ước tính",
+   "Tỷ lệ nghỉ ước tính",
+   "Chênh so với hiện tại (người)"
+  ],
+  "index": [
+   "Hiện tại",
+   "Cấp 1 không làm thêm giờ",
+   "Toàn công ty không làm thêm giờ",
+   "Người độc thân được cấp cổ phiếu mức 1"
+  ],
+  "rows": [
+   [
+    238.49,
+    0.162,
+    0.0
+   ],
+   [
+    179.55,
+    0.122,
+    -58.94
+   ],
+   [
+    158.791,
+    0.108,
+    -79.699
+   ],
+   [
+    224.066,
+    0.152,
+    -14.424
+   ]
+  ]
+ },
+ "n_high": 214,
+ "leak": {
+  "columns": [
+   "Điểm rủi ro",
+   "Đã xử lý thế nào"
+  ],
+  "index": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "rows": [
+   [
+    "Chia tập",
+    "Chia 80/20 ngay đầu, phân tầng theo Left; tập kiểm tra chỉ dùng một lần ở cuối"
+   ],
+   [
+    "Chuẩn hoá, mã hoá",
+    "Nằm trong Pipeline nên StandardScaler, OneHotEncoder chỉ học (fit) trên phần huấn luyện của mỗi lần chạy"
+   ],
+   [
+    "Đặc trưng IncomeVsLevel",
+    "Trung vị thu nhập theo cấp được học trong FeatureAdder.fit trên tập huấn luyện, không tính trên toàn bộ dữ liệu"
+   ],
+   [
+    "Chọn mô hình và ngưỡng",
+    "Dựa trên kiểm định chéo trong tập huấn luyện, không nhìn tập kiểm tra"
+   ],
+   [
+    "Biến mục tiêu",
+    "Attrition và Left bị loại khỏi X"
+   ],
+   [
+    "Mã nhân viên",
+    "EmployeeNumber là chỉ mục, không đưa vào mô hình (thứ tự mã có thể trùng với thời điểm vào làm)"
+   ],
+   [
+    "Biến sinh ra sau khi nghỉ",
+    "Không có trong dữ liệu (không có ngày nghỉ, lý do nghỉ); các biến đều đo cùng thời điểm"
+   ],
+   [
+    "Rủi ro còn lại",
+    "Mức hài lòng đo cùng lúc với trạng thái nghỉ — có thể bị ảnh hưởng ngược (người sắp nghỉ đánh giá thấp hơn)"
+   ]
+  ]
+ },
+ "ethics": {
+  "columns": [
+   "Vấn đề",
+   "Cách xử lý trong dự án"
+  ],
+  "index": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "rows": [
+   [
+    "Dữ liệu cá nhân",
+    "Dữ liệu giả lập do IBM tạo, không có tên, số định danh hay liên hệ; mã nhân viên không đưa vào mô hình."
+   ],
+   [
+    "Thuộc tính nhạy cảm",
+    "Giới tính bị loại khỏi mô hình. Tuổi và tình trạng hôn nhân vẫn dùng vì gắn với giai đoạn sự nghiệp, nhưng kết quả được kiểm tra theo nhóm tuổi; khi áp dụng thật cần cân nhắc bỏ."
+   ],
+   [
+    "Nhóm có thể bị đại diện thiếu",
+    "Phòng Nhân sự (63 người), cấp 5 (69 người), nhân viên ly hôn dưới 30 tuổi — kết luận cho các nhóm này kém chắc chắn."
+   ],
+   [
+    "Cách dùng phù hợp",
+    "Gợi ý ai nên được trao đổi, hỗ trợ trước (giảm làm thêm giờ, kèm cặp năm đầu)."
+   ],
+   [
+    "Cách dùng KHÔNG phù hợp",
+    "Không dùng để sa thải, từ chối thăng chức, xếp lương hay đánh giá cá nhân; không áp dụng cho công ty khác khi chưa kiểm tra lại trên dữ liệu thật của công ty đó."
+   ]
+  ]
+ },
+ "odds": {
+  "OverTime_Yes": 2.66,
+  "JobRole_Laboratory Technician": 2.14,
+  "BusinessTravel_Travel_Frequently": 2.1,
+  "BusinessTravel_Non-Travel": 0.48,
+  "YearsSinceLastPromotion": 1.97,
+  "JobRole_Research Director": 0.59,
+  "JobRole_Research Scientist": 0.59,
+  "MaritalStatus_Single": 1.58
+ },
+ "nostd": 0.07159481504568703,
+ "cleaning_log": {
+  "columns": [
+   "Bước",
+   "Cột",
+   "Phát hiện",
+   "Hành động",
+   "Số dòng",
+   "Lý do / cách xác minh"
+  ],
+  "index": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12"
+  ],
+  "rows": [
+   [
+    "1",
+    "Age (tiêu đề)",
+    "Tiêu đề cột đầu có ký tự BOM \\ufeff",
+    "Đọc lại bằng encoding='utf-8-sig'",
+    1470,
+    "Kiểm 3 byte đầu file = EF BB BF; không xử lý thì df['Age'] báo KeyError"
+   ],
+   [
+    "2",
+    "Tất cả",
+    "0 ô NaN; 0 giá trị thiếu trá hình; 0 mã âm kiểu -999",
+    "Không cần điền/xoá",
+    0,
+    "Quét isna(), các chuỗi 'N/A','-','?','unknown'…, và giá trị âm; số 0 ở YearsAtCompany/TrainingTimes là hợp lệ (nhân viên mới)"
+   ],
+   [
+    "3",
+    "Tất cả",
+    "0 dòng trùng; 0 dòng trùng khi bỏ mã NV; mã NV duy nhất",
+    "Không xoá",
+    0,
+    "duplicated() trên toàn bộ cột và trên các cột trừ EmployeeNumber"
+   ],
+   [
+    "4",
+    "EmployeeCount, Over18, StandardHours",
+    "Mỗi cột chỉ có 1 giá trị (1 / 'Y' / 80)",
+    "Loại bỏ 3 cột",
+    1470,
+    "Phương sai = 0, không thể phân biệt nhân viên; StandardHours=80 cho mọi người nên không đo được giờ làm thực tế"
+   ],
+   [
+    "5",
+    "EmployeeNumber",
+    "Mã duy nhất nhưng đứt quãng (1–2068 cho 1470 người)",
+    "Chuyển thành chỉ mục, không dùng làm biến phân tích",
+    1470,
+    "Là định danh, không phải đặc điểm; khoảng trống gợi ý đây là mẫu con của một tập lớn hơn (ghi vào phần giới hạn)"
+   ],
+   [
+    "6",
+    "Attrition",
+    "Giá trị 'Yes'/'No' (237/1.233)",
+    "Thêm cột Left = 1/0, giữ cột gốc",
+    1470,
+    "Tính tỷ lệ nghỉ việc bằng trung bình của Left; kiểm chỉ có đúng 2 giá trị"
+   ],
+   [
+    "7",
+    "Education, 4 cột Satisfaction/Involvement, WorkLifeBalance, PerformanceRating",
+    "Mã số 1–5/1–4 không kèm nhãn trong file",
+    "Thêm cột *_label dạng phân loại có thứ tự; giữ mã số",
+    1470,
+    "Bảng mã theo mô tả gốc của bộ dữ liệu (OpenML/Kaggle); thang thứ bậc nên báo cáo trung vị/tỷ lệ, không dùng trung bình như số đo khoảng"
+   ],
+   [
+    "8",
+    "6 cột số năm (Years…, TotalWorkingYears) và Age",
+    "0 dòng vi phạm 5 ràng buộc logic",
+    "Không cần sửa",
+    0,
+    "Kiểm: năm tại công ty ≤ tổng năm làm việc; năm ở vị trí/với quản lý/từ lần thăng chức ≤ năm tại công ty; tuổi − tổng năm làm việc ≥ 18"
+   ],
+   [
+    "9",
+    "NumCompaniesWorked",
+    "197 người ghi 0 công ty trước đây nhưng tổng năm làm việc lớn hơn năm tại công ty đúng 1 năm (197/197 dòng)",
+    "Giữ nguyên, thêm cờ NCW_flag; không dùng cột này để kết luận",
+    197,
+    "Mẫu lệch đều đúng 1 năm gợi ý lỗi mã hoá hệ thống, nhưng không có nguồn để xác minh giá trị đúng → đánh dấu thay vì đoán"
+   ],
+   [
+    "10",
+    "DailyRate, HourlyRate, MonthlyRate",
+    "Phân phối đều (kurtosis ≈ −1,2), tương quan với MonthlyIncome ≈ 0 (|ρ| ≤ 0,05), không tăng theo JobLevel",
+    "Giữ trong bảng dữ liệu sạch, loại khỏi phân tích",
+    0,
+    "Không có định nghĩa trong nguồn và mâu thuẫn với thu nhập thực nhận → không đủ căn cứ để diễn giải"
+   ],
+   [
+    "11",
+    "MonthlyIncome",
+    "IQR đánh dấu 114 dòng > 16.581; Z cải tiến (MAD) đánh dấu 118; Z-score (>3) đánh dấu 0",
+    "Giữ toàn bộ; dùng trung vị, Spearman và so sánh trong cùng cấp",
+    114,
+    "Tất cả thuộc cấp bậc 4–5 (cấp 4: 45, cấp 5: 69) — lương cao thật của cấp quản lý; trong từng cấp không ai vượt khung lương; bỏ các dòng này không đổi kết luận (mục 3.1)"
+   ],
+   [
+    "12",
+    "10 cột số còn lại (Age, các cột số năm, NumCompaniesWorked, TrainingTimesLastYear…)",
+    "IQR đánh dấu: TotalWorkingYears 63, YearsAtCompany 104, YearsInCurrentRole 21, YearsSinceLastPromotion 107, YearsWithCurrManager 14, NumCompaniesWorked 52, TrainingTimesLastYear 238; Age, DistanceFromHome, PercentSalaryHike: 0",
+    "Giữ toàn bộ",
+    447,
+    "Không có giá trị không thể có (kiểm miền và logic B8); cột số năm là nhân viên gắn bó lâu; TrainingTimesLastYear bị đánh dấu chỉ vì Q1–Q3 quá hẹp (mục 3.1)"
+   ],
+   [
+    "13",
+    "AgeBand, TenureBand, IncomeQuartile",
+    "Cần nhóm hoá để so sánh tỷ lệ nghỉ việc",
+    "Tuổi: 18–29/30–39/40–60; thâm niên: 0–1/2–3/4–5/6–10/11+ năm; thu nhập: tứ phân vị",
+    1470,
+    "Ngưỡng cố định trước khi xem kết quả; mỗi nhóm ≥ 200 người để tỷ lệ không dao động vì cỡ mẫu nhỏ"
+   ]
+  ]
+ }
+}
